@@ -1,11 +1,12 @@
 import { MISSIONS } from "@/lib/missions";
 import MissionPhoto from "@/components/MissionPhoto";
+import LaunchCountdown from "@/components/LaunchCountdown";
 import AdSlot from "@/components/AdSlot";
 import Reveal from "@/components/Reveal";
 
 export const metadata = {
-  title: "Mission Explorer",
-  description: "Every active and upcoming deep space mission: status, instruments, and discoveries."
+  title: "Mission Explorer — live launch countdowns and deep space probes",
+  description: "Upcoming rocket launches with live countdowns, plus every active and upcoming deep space mission: status, instruments, and discoveries."
 };
 
 const chip = {
@@ -21,6 +22,14 @@ export default function MissionsPage() {
       <p className="mt-3 max-w-2xl text-dim">
         The spacecraft operating at — or headed to — the deepest reaches we&apos;ve ever sent hardware. Ordered by launch.
       </p>
+
+      <Reveal>
+        <section className="mt-10">
+          <h2 className="font-display text-xl text-starlight">Next launches</h2>
+          <p className="mt-1 text-sm text-dim">Live countdowns from the global launch schedule.</p>
+          <div className="mt-4"><LaunchCountdown /></div>
+        </section>
+      </Reveal>
 
       <div className="mt-10 space-y-4">
         {MISSIONS.map((m, i) => (

@@ -4,6 +4,13 @@
 
 html { scroll-behavior: smooth; }
 
+/* ---------- page transition ---------- */
+.page-fade { animation: pageFade 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
 /* ---------- scroll reveal ---------- */
 .reveal {
   opacity: 0;
@@ -14,50 +21,36 @@ html { scroll-behavior: smooth; }
 .reveal.is-revealed { opacity: 1; transform: none; }
 
 /* ---------- hero load-in stagger ---------- */
-@keyframes heroIn {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: none; }
-}
 .hero-in { opacity: 0; animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .hero-in-1 { animation-delay: 0.05s; }
 .hero-in-2 { animation-delay: 0.18s; }
-.hero-in-3 { animation-delay: 0.34s; }
-
-/* ---------- live telemetry dot ---------- */
-.live-dot {
-  width: 6px; height: 6px; border-radius: 9999px;
-  background: #FFB35C;
-  box-shadow: 0 0 0 0 rgba(255, 179, 92, 0.6);
-  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-@keyframes ping {
-  0%   { box-shadow: 0 0 0 0 rgba(255, 179, 92, 0.55); }
-  70%  { box-shadow: 0 0 0 7px rgba(255, 179, 92, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 179, 92, 0); }
+.hero-in-3 { animation-delay: 0.32s; }
+.hero-in-4 { animation-delay: 0.48s; }
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
 }
 
-/* ---------- odometer glow ---------- */
-.odometer { text-shadow: 0 0 24px rgba(255, 179, 92, 0.25); }
-
-/* ---------- card hover lift ---------- */
-.card-lift {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.35s, box-shadow 0.35s;
+/* ---------- odometer glow + live dot ---------- */
+.odometer { text-shadow: 0 0 18px rgba(255, 179, 92, 0.35); }
+.live-dot { animation: dotPulse 1.6s ease-in-out infinite; }
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(255, 179, 92, 0.8); }
+  50% { opacity: 0.4; box-shadow: 0 0 1px rgba(255, 179, 92, 0.2); }
 }
-.card-lift:hover {
+
+/* ---------- card hover ---------- */
+.card-glow { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s; }
+.card-glow:hover {
   transform: translateY(-3px);
   border-color: rgba(255, 179, 92, 0.35);
-  box-shadow: 0 14px 40px -18px rgba(255, 179, 92, 0.25);
-}
-.card-lift-blue:hover {
-  border-color: rgba(92, 200, 255, 0.4);
-  box-shadow: 0 14px 40px -18px rgba(92, 200, 255, 0.25);
+  box-shadow: 0 12px 40px -12px rgba(255, 179, 92, 0.18);
 }
 
-/* ---------- nav link underline sweep ---------- */
+/* ---------- nav underline sweep ---------- */
 .nav-link { position: relative; }
 .nav-link::after {
-  content: ""; position: absolute; left: 0; bottom: -3px;
+  content: ""; position: absolute; left: 0; bottom: -4px;
   width: 100%; height: 1px; background: #FFB35C;
   transform: scaleX(0); transform-origin: left;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -92,96 +85,22 @@ html { scroll-behavior: smooth; }
 .voyager-pulse { animation: textPulse 2.4s ease-in-out infinite; }
 @keyframes textPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 
+/* ---------- article typography ---------- */
+.prose-void h2 { margin-top: 2rem; font-size: 1.35rem; color: #E8EDF5; font-family: var(--font-display), sans-serif; }
+.prose-void h3 { margin-top: 1.5rem; font-size: 1.1rem; color: #E8EDF5; }
+.prose-void p { margin-top: 1rem; line-height: 1.75; color: #B9C2D4; }
+.prose-void a { color: #5CC8FF; text-decoration: underline; text-underline-offset: 3px; }
+.prose-void ul, .prose-void ol { margin-top: 1rem; padding-left: 1.25rem; color: #B9C2D4; line-height: 1.7; }
+.prose-void li { margin-top: 0.4rem; list-style: disc; }
+.prose-void strong { color: #E8EDF5; }
+.prose-void blockquote { margin-top: 1rem; border-left: 2px solid #FFB35C; padding-left: 1rem; color: #8B96AB; font-style: italic; }
+
 /* ---------- accessibility: respect reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal, .hero-in { opacity: 1; transform: none; animation: none; transition: none; }
-  .live-dot, .voyager-pulse { animation: none; }
-  .card-lift, .card-lift:hover { transform: none; transition: none; }
+  .reveal, .hero-in, .page-fade { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+  .live-dot, .voyager-pulse { animation: none !important; }
+  .card-glow, .card-glow:hover { transform: none !important; }
 }
 
-/* ---------- blog article typography ---------- */
-.prose-void h2 { @apply mt-10 font-display text-2xl text-starlight; }
-.prose-void h3 { @apply mt-8 font-display text-xl text-starlight; }
-.prose-void p { @apply mt-4 leading-relaxed text-dim; }
-.prose-void a { @apply text-signal underline underline-offset-2 hover:text-starlight; }
-.prose-void ul { @apply mt-4 list-disc space-y-2 pl-6 text-dim; }
-.prose-void strong { @apply text-starlight; }
-
-/* ---------- nebula glow layers ---------- */
-.nebula {
-  position: fixed; border-radius: 9999px; pointer-events: none;
-  z-index: -10; filter: blur(70px); opacity: 0.65;
-}
-.nebula-a {
-  width: 60vw; height: 60vw; top: -20vw; right: -15vw;
-  background: radial-gradient(circle, rgba(92, 200, 255, 0.16), transparent 65%);
-  animation: drift 46s ease-in-out infinite alternate;
-}
-.nebula-b {
-  width: 50vw; height: 50vw; bottom: -15vw; left: -12vw;
-  background: radial-gradient(circle, rgba(255, 179, 92, 0.12), transparent 65%);
-  animation: drift 38s ease-in-out infinite alternate-reverse;
-}
-.nebula-c {
-  width: 70vw; height: 46vw; top: 28vh; left: 18vw;
-  background: radial-gradient(ellipse, rgba(120, 100, 220, 0.09), transparent 62%);
-  animation: drift 58s ease-in-out infinite alternate;
-}
-@keyframes drift {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(4vw, 3vw) scale(1.12); }
-}
-
-/* ---------- gradient headline accent ---------- */
-.text-gradient {
-  background: linear-gradient(100deg, #5CC8FF 0%, #9BB8FF 45%, #FFB35C 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* ---------- panel surface: subtle top sheen ---------- */
-.sheen {
-  background-image: linear-gradient(180deg, rgba(237, 242, 250, 0.045), rgba(237, 242, 250, 0) 120px);
-}
-
-/* ---------- hero scroll cue ---------- */
-.scroll-cue { animation: cueBob 2.2s ease-in-out infinite; }
-@keyframes cueBob {
-  0%, 100% { transform: translateY(0); opacity: 0.55; }
-  50%      { transform: translateY(5px); opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .scroll-cue { animation: none; }
-}
-
-/* ---------- UFO flyby ---------- */
-.ufo {
-  left: 0;
-  animation-name: ufoFly;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-  filter: drop-shadow(0 0 6px rgba(92, 200, 255, 0.4));
-}
-@keyframes ufoFly {
-  from { translate: -90px 0; }
-  33%  { translate: calc(33vw) -14px; }
-  66%  { translate: calc(66vw) 10px; }
-  to   { translate: calc(100vw + 90px) -6px; }
-}
-
-/* ---------- anomaly toast ---------- */
-.toast-in { animation: toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-@keyframes toastIn {
-  from { opacity: 0; transform: translate(-50%, 14px); }
-  to   { opacity: 1; transform: translate(-50%, 0); }
-}
-
-/* ---------- planet profile entrance ---------- */
-.planet-detail { animation: heroIn 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
-
-@media (prefers-reduced-motion: reduce) {
-  .nebula-a, .nebula-b { animation: none; }
-  .toast-in, .planet-detail { animation: none; }
-}
+:focus-visible { outline: 2px solid #FFB35C; outline-offset: 2px; }

@@ -1,28 +1,26 @@
 "use client";
-
 import { useEffect, useRef } from "react";
 
-export default function Reveal({ children, delay = 0, className = "" }) {
+export default function Reveal({ children, delay = 0 }) {
   const ref = useRef(null);
-
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("is-revealed");
-          io.disconnect();
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setTimeout(() => el.classList.add("is-revealed"), delay);
+            obs.unobserve(el);
+          }
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.12 }
     );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [delay]);
   return (
-    <div ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <div ref={ref} className="reveal">
       {children}
     </div>
   );

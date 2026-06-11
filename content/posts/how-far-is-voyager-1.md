@@ -1,29 +1,35 @@
 ---
-title: "How far is Voyager 1, really? A guide to distances you can't picture"
-date: "2026-06-10"
-excerpt: "Twenty-four billion kilometres is a number your brain rejects. Here are five comparisons that actually work."
+title: "How far away is Voyager 1 right now? (And why the answer changes every second)"
+description: "Voyager 1 is the farthest human-made object in existence — here's exactly how far it is, how we know, and why that number is easier to feel than to imagine."
+date: "2026-05-02"
 ---
 
-Voyager 1 is the farthest human-made object in existence, and the number on our homepage — roughly 25 billion kilometres — is honestly useless to a human brain. Nothing in daily life prepares you for it. So let's translate.
+If you opened our homepage before reading this, you already saw the answer scroll past: Voyager 1 is more than 25 billion kilometres from the Sun, and the number was climbing as you watched. Roughly 17 kilometres were added in the time it took you to read this sentence.
 
-## 1. The radio delay
+## The short answer
 
-When NASA sends a command to Voyager 1, the signal travels at the speed of light — the fastest anything can move — and it *still* takes nearly a full day to arrive. A round-trip conversation takes almost two days. Mission controllers don't "fly" Voyager; they mail it instructions and wait.
+Voyager 1 is currently over **165 astronomical units** from the Sun — one astronomical unit (AU) being the distance from Earth to the Sun, about 150 million kilometres. It is the farthest any human-made object has ever travelled, and the gap grows by about 3.6 AU every year.
 
-## 2. The Sun looks like a star
+## How do we actually know?
 
-From Voyager 1, the Sun is no longer a disc. It's just the brightest star in the sky — about as bright as a streetlight seen from a few hundred metres. Every photo of home is a point of light.
+We don't track Voyager with telescopes — it's far too small and dark to see. We know where it is because it *talks to us*. NASA's Deep Space Network sends radio signals to the spacecraft and times the round trip. Radio waves travel at the speed of light, which is constant, so the delay converts directly into a distance.
 
-## 3. If the solar system were a city
+That delay is now more than **23 hours each way**. When engineers send a command, the soonest they can hear back is nearly two days later. Every conversation with Voyager 1 is a conversation across yesterday.
 
-Shrink the Sun to a football at the centre of Toronto. Earth is a peppercorn 30 metres away. Neptune sits about 900 metres out. Voyager 1? It has left the city entirely — more than 4 kilometres from the football, and still walking.
+## Why the number on our homepage is an estimate
 
-## 4. It will outlast everything you know
+Voyager 1 coasts at an almost perfectly constant 16.9 km/s — there's nothing out there to slow it down. So if you know exactly where it was on one date (NASA/JPL publishes this), you can compute where it is at any moment after: distance = known distance + speed × elapsed time. That's literally the formula our live counter runs ten times a second. It will drift from NASA's official figure by only a vanishingly small fraction per year, and we re-anchor it to the published mission data periodically.
 
-Voyager carries the Golden Record, designed to survive for a billion years in interstellar space. Long after the pyramids erode and the continents rearrange, two small spacecraft will still be carrying greetings in 55 languages.
+## Making 25 billion kilometres mean something
 
-## 5. And yet — it's barely begun
+Numbers that big slide off the brain, so try these instead:
 
-Here's the part that breaks people: at 25 billion km, Voyager 1 has covered about **0.05%** of the distance to the nearest star. At its current speed it would need over 70,000 years to reach Proxima Centauri (it isn't aimed there). The deepest space mission in history is, on a galactic map, still in our driveway.
+- Light — the fastest thing in the universe — takes **about a day** to reach Voyager 1. It reaches the Moon in 1.3 seconds.
+- If the Sun were a basketball in Toronto, Earth would be a peppercorn 26 metres away — and Voyager 1 would be **over 4 kilometres down the road**, still going.
+- Driving there at highway speed, non-stop, would take about **28,000 years**.
 
-That gap between human achievement and cosmic scale is what this site is about. The counter on the homepage ticks 17 km every second — watch it for a minute, feel impressed, then remember the driveway.
+## Where is it going?
+
+Nowhere in particular, and that's the poetry of it. Voyager 1 left the heliosphere — the Sun's bubble of solar wind — in 2012, making it the first object to sample true interstellar space. In about 40,000 years it will pass within 1.6 light-years of a star called Gliese 445. It won't stop. Long after its transmitter falls silent (likely within this decade), the spacecraft itself will keep falling through the galaxy, carrying its Golden Record of Earth's sounds, effectively forever.
+
+The number on our homepage will keep climbing whether anyone watches or not. But it's better with someone watching.

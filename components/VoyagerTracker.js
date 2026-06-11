@@ -1,38 +1,32 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { PROBES, distanceKm, toAU, lightTime } from "@/lib/voyager";
 
 function Odometer({ probe }) {
-  const [km, setKm] = useState(null); // null until mounted = no hydration mismatch
+  const [km, setKm] = useState(null);
 
   useEffect(() => {
-    setKm(distanceKm(probe));
-    const id = setInterval(() => setKm(distanceKm(probe)), 100); // 10×/sec: last digits visibly roll
+    const tick = () => setKm(distanceKm(probe));
+    tick();
+    const id = setInterval(tick, 100);
     return () => clearInterval(id);
   }, [probe]);
 
   const lt = km ? lightTime(km) : null;
 
   return (
-    <div className="card-lift group rounded-lg border border-hairline bg-panel/80 p-6 backdrop-blur">
-      <div className="flex items-baseline justify-between">
-        <h3 className="font-display text-lg text-starlight">{probe.name}</h3>
+    <div className="card-glow rounded-lg border border-hairline bg-panel p-5">
+      <div className="flex items-center justify-between">
+        <h3 className="font-display text-base text-starlight">{probe.name}</h3>
         <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-telemetry">
-          <span className="live-dot" /> live estimate
+          <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-telemetry" />
+          live estimate
         </span>
       </div>
-      <p className="odometer mt-4 font-mono text-3xl tabular-nums text-telemetry sm:text-4xl" aria-live="off">
-        {km === null ? (
-          <span className="text-dim">acquiring signal…</span>
-        ) : (
-          <>
-            {Math.floor(km).toLocaleString("en-US")}
-            <span className="ml-2 text-sm text-dim">km from the Sun</span>
-          </>
-        )}
+      <p className="odometer mt-3 font-mono text-2xl tabular-nums text-telemetry sm:text-3xl">
+        {km ? Math.floor(km).toLocaleString("en-US") + " km" : "acquiring signal…"}
       </p>
-      <dl className="mt-5 grid grid-cols-2 gap-4 font-mono text-xs text-dim">
+      <dl className="mt-4 grid grid-cols-2 gap-3 font-mono text-[11px] text-dim">
         <div>
           <dt className="uppercase tracking-widest">Distance</dt>
           <dd className="mt-1 text-starlight">{km ? toAU(km).toFixed(3) + " AU" : "—"}</dd>
