@@ -42,6 +42,28 @@ input:focus, textarea:focus { box-shadow: 0 0 0 3px rgba(255, 179, 92, 0.12); }
   50%      { box-shadow: 0 0 24px -4px rgba(255, 179, 92, 0.35); }
 }
 
+/* magnetic CTA — springs back when the cursor leaves */
+.magnetic { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
+
+/* staggered child entrances — rows cascade in once the parent reveals */
+.reveal .stagger > * { opacity: 0; transform: translateY(12px); }
+.reveal.is-revealed .stagger > * {
+  opacity: 1; transform: none;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-revealed .stagger > *:nth-child(1)  { transition-delay: 0.04s; }
+.reveal.is-revealed .stagger > *:nth-child(2)  { transition-delay: 0.09s; }
+.reveal.is-revealed .stagger > *:nth-child(3)  { transition-delay: 0.14s; }
+.reveal.is-revealed .stagger > *:nth-child(4)  { transition-delay: 0.19s; }
+.reveal.is-revealed .stagger > *:nth-child(5)  { transition-delay: 0.24s; }
+.reveal.is-revealed .stagger > *:nth-child(6)  { transition-delay: 0.29s; }
+.reveal.is-revealed .stagger > *:nth-child(7)  { transition-delay: 0.34s; }
+.reveal.is-revealed .stagger > *:nth-child(8)  { transition-delay: 0.39s; }
+.reveal.is-revealed .stagger > *:nth-child(9)  { transition-delay: 0.44s; }
+.reveal.is-revealed .stagger > *:nth-child(10) { transition-delay: 0.49s; }
+.reveal.is-revealed .stagger > *:nth-child(n+11) { transition-delay: 0.55s; }
+
 /* ---------- page transition ---------- */
 .page-fade { animation: pageFade 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
 @keyframes pageFade {
@@ -238,6 +260,8 @@ input:focus, textarea:focus { box-shadow: 0 0 0 3px rgba(255, 179, 92, 0.12); }
   html { scroll-behavior: auto; }
   .reveal, .hero-in, .page-fade { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; transition: none !important; }
   .live-dot, .voyager-pulse, .scroll-cue, .glow-pulse, .text-gradient { animation: none; }
+  .magnetic { transition: none; transform: none !important; }
+  .reveal .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
   .card-lift, .card-lift:hover, .card-glow, .card-glow:hover { transform: none; transition: none; }
   .nebula-a, .nebula-b, .nebula-c { animation: none; }
   .toast-in, .planet-detail { animation: none; }

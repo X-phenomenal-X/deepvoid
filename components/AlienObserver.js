@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { anomalyPing } from "@/lib/sound";
 
 const MESSAGES = [
   "Observer logged. They've been monitoring us since 1977 — apparently the Golden Record got their attention.",
@@ -56,6 +57,7 @@ export default function AlienObserver() {
   }, []);
 
   function spotted() {
+    anomalyPing();
     const n = count + 1;
     setCount(n);
     try { localStorage.setItem("dv-sightings", String(n)); } catch {}

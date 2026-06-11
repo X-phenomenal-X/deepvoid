@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { PLANETS, planetPosition } from "@/lib/planets";
+import { planetPing } from "@/lib/sound";
 
 /*
  * Live orbit map — planet positions computed from JPL approximate
@@ -166,8 +167,10 @@ export default function OrbitMap({ variant = "panel" }) {
     }
     function onClick(e) {
       const n = nearest(e);
-      if (n) setSelName(n);
-      else setSelName(null);
+      if (n) {
+        setSelName(n);
+        planetPing(PLANETS.findIndex((p) => p.name === n));
+      } else setSelName(null);
     }
     function onVis() {
       cancelAnimationFrame(raf);

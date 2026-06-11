@@ -69,7 +69,7 @@ export default function CosmicEvents() {
         </div>
       )}
 
-      <div className="sheen overflow-hidden rounded-xl border border-hairline bg-panel/80 backdrop-blur">
+      <div className="sheen stagger overflow-hidden rounded-xl border border-hairline bg-panel/80 backdrop-blur">
         {/* past toggle */}
         <button
           onClick={() => setShowPast(!showPast)}

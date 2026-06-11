@@ -23,7 +23,7 @@ export default async function AsteroidWatch() {
         they come. One lunar distance (LD) = the gap between Earth and the Moon.
       </p>
 
-      <div className="sheen mt-8 overflow-hidden rounded-xl border border-hairline bg-panel/80 backdrop-blur">
+      <div className="sheen stagger mt-8 overflow-hidden rounded-xl border border-hairline bg-panel/80 backdrop-blur">
         <div className="grid grid-cols-[1fr_auto] gap-x-4 border-b border-hairline px-5 py-3 font-mono text-[10px] uppercase tracking-widest text-dim sm:grid-cols-[1.4fr_1fr_1fr_1fr_auto]">
           <span>Object</span>
           <span className="hidden sm:block">Size</span>

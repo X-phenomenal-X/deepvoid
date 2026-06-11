@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PLANETS } from "@/lib/planets";
+import { planetPing } from "@/lib/sound";
 
 const KM_AU = 149597870.7;
 const LIGHT_MIN_PER_AU = 8.317; // minutes for sunlight to travel 1 AU
@@ -56,7 +57,7 @@ export default function PlanetExplorer() {
           return (
             <button
               key={p.name}
-              onClick={() => setSel(p)}
+              onClick={() => { setSel(p); planetPing(PLANETS.indexOf(p)); }}
               aria-label={`View ${p.name}`}
               className="group flex flex-col items-center gap-2"
             >
