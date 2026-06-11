@@ -1,3 +1,4 @@
+import HeroVoid from "@/components/HeroVoid";
 import VoyagerTracker from "@/components/VoyagerTracker";
 import ApodCard from "@/components/ApodCard";
 import LaunchCountdown from "@/components/LaunchCountdown";
@@ -5,37 +6,25 @@ import IssTracker from "@/components/IssTracker";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import AdSlot from "@/components/AdSlot";
 import ScaleSlider from "@/components/ScaleSlider";
-import OrbitMap from "@/components/OrbitMap";
 import Reveal from "@/components/Reveal";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="space-y-16 py-12">
-      {/* Hero — staggered load-in, live odometers */}
-      <section>
-        <p className="hero-in hero-in-1 font-mono text-xs uppercase tracking-[0.25em] text-telemetry">
-          Live telemetry estimate
-        </p>
-        <h1 className="hero-in hero-in-2 mt-4 max-w-4xl font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">
-          Two spacecraft are <span className="text-gradient">leaving the solar system.</span>
-          <span className="text-dim"> Watch them go — by the second.</span>
-        </h1>
-        <div className="hero-in hero-in-3 mt-8">
-          <VoyagerTracker />
-        </div>
-      </section>
+    <div className="space-y-20 pb-16">
+      {/* Cinematic hero — the solar system, live, full bleed */}
+      <HeroVoid />
 
-      {/* Live solar system */}
+      {/* Mission telemetry */}
       <Reveal>
         <section>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-telemetry">Live orbit map</p>
-          <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">The solar system, right now</h2>
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-telemetry">Mission telemetry</p>
+          <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">Two machines from 1977, still calling home</h2>
           <p className="mt-2 max-w-2xl text-sm text-dim">
-            Every planet drawn at its real position for this exact moment — computed from JPL orbital
-            elements. Crank the time warp to watch decades pass.
+            Distances update ten times a second from each probe&apos;s real velocity. The signal
+            you&apos;d send right now takes nearly a full day to arrive.
           </p>
-          <div className="mt-6"><OrbitMap /></div>
+          <div className="mt-8"><VoyagerTracker /></div>
         </section>
       </Reveal>
 

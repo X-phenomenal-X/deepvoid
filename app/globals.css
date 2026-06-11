@@ -146,6 +146,16 @@ html { scroll-behavior: smooth; }
   background-image: linear-gradient(180deg, rgba(237, 242, 250, 0.045), rgba(237, 242, 250, 0) 120px);
 }
 
+/* ---------- hero scroll cue ---------- */
+.scroll-cue { animation: cueBob 2.2s ease-in-out infinite; }
+@keyframes cueBob {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50%      { transform: translateY(5px); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue { animation: none; }
+}
+
 /* ---------- UFO flyby ---------- */
 .ufo {
   left: 0;
