@@ -4,16 +4,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        void: "#05070D",
-        panel: "#0B0F1A",
-        hairline: "#1C2436",
-        starlight: "#E8EDF5",
-        dim: "#8B96AB",
-        telemetry: "#FFB35C",
-        signal: "#5CC8FF"
+        void: "#05070D",        // page background — deep blue-black, not pure black
+        panel: "#0D1424",       // card surfaces — lifted so panels read against the void
+        hairline: "#283452",    // borders — visible, defines the cards
+        starlight: "#EDF2FA",   // primary text
+        dim: "#9AA8C4",         // secondary text — higher contrast
+        telemetry: "#FFB35C",   // amber accent — mission-control console amber
+        signal: "#5CC8FF"       // cool blue for links/data highlights
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],
+        hero: ["var(--font-hero)", "var(--font-display)", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"]
       }
     }

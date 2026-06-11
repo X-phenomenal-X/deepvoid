@@ -3,9 +3,11 @@ import Link from "next/link";
 import { useState } from "react";
 
 const links = [
+  { href: "/planets", label: "Planets" },
   { href: "/solar-system", label: "Solar System" },
   { href: "/missions", label: "Missions" },
   { href: "/exoplanets", label: "Exoplanets" },
+  { href: "/eclipse", label: "Eclipse 2026" },
   { href: "/blog", label: "Dispatches" }
 ];
 
@@ -13,13 +15,13 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 border-b border-hairline bg-void/80 backdrop-blur">
-      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+      <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-8">
         <Link href="/" className="font-display text-lg tracking-tight text-starlight">
           deep<span className="text-telemetry">void</span>
         </Link>
 
         {/* desktop */}
-        <div className="hidden items-center gap-6 text-sm text-dim sm:flex">
+        <div className="hidden items-center gap-5 text-sm text-dim md:flex">
           {links.map((l) => (
             <Link key={l.href} href={l.href} className="nav-link transition hover:text-starlight">
               {l.label}
@@ -35,12 +37,12 @@ export default function Navbar() {
 
         {/* mobile toggle */}
         <button
-          className="flex h-9 w-9 items-center justify-center rounded border border-hairline text-starlight sm:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded border border-hairline text-starlight md:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen(!open)}
         >
-          <span className="relative block h-3.5 w-4.5" style={{ width: 18 }}>
+          <span className="relative block h-3.5" style={{ width: 18 }}>
             <span
               className={`absolute left-0 top-0 h-px w-full bg-current transition-transform duration-300 ${open ? "translate-y-[7px] rotate-45" : ""}`}
             />
@@ -56,7 +58,7 @@ export default function Navbar() {
 
       {/* mobile panel */}
       <div
-        className={`overflow-hidden border-hairline transition-all duration-300 sm:hidden ${open ? "max-h-80 border-t" : "max-h-0"}`}
+        className={`overflow-hidden border-hairline transition-all duration-300 md:hidden ${open ? "max-h-96 border-t" : "max-h-0"}`}
       >
         <div className="flex flex-col gap-1 px-4 py-3">
           {links.map((l) => (
