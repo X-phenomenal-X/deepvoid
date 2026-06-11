@@ -1,120 +1,114 @@
 "use client";
+import { useEffect, useMemo, useState } from "react";
+import { PROBES, distanceKm, KM_PER_AU } from "@/lib/voyager";
 
-import { useMemo, useState } from "react";
-import { PROBES, distanceKm } from "@/lib/voyager";
+const MIN_KM = 384400; // Moon
+const MAX_KM = 4.0175e13; // Proxima Centauri (~4.246 ly)
 
-const LIGHT_KM_S = 299792.458;
-const KM_AU = 149597870.7;
-
-const STOPS = [
-  { name: "The Moon", km: 3.844e5, note: "Apollo crews made this trip in about three days." },
-  { name: "The Sun", km: 1.496e8, note: "One astronomical unit — the ruler we measure the solar system with." },
-  { name: "Mars", km: 2.25e8, note: "Average distance. Rovers wait 4–24 minutes for each command." },
-  { name: "Jupiter", km: 7.785e8, note: "Europa Clipper is on its way here right now." },
-  { name: "Neptune", km: 4.5e9, note: "Visited exactly once — Voyager 2, August 1989." },
-  { name: "Heliopause", km: 1.8e10, note: "Where the Sun's wind gives way to interstellar space." },
-  { name: "Voyager 1", km: null, live: true, note: "The farthest human-made object. The number is live." },
-  { name: "One light-day", km: 2.59e10, note: "Light itself needs a full day to get here." },
-  { name: "Proxima Centauri", km: 4.014e13, note: "The nearest star. Voyager-speed travel time: ~75,000 years." }
+const LANDMARKS = [
+  { name: "Moon", km: 384400 },
+  { name: "Mars (avg)", km: 2.25e8 },
+  { name: "Jupiter (avg)", km: 7.78e8 },
+  { name: "Neptune", km: 4.5e9 },
+  { name: "Voyager 1", km: null }, // live
+  { name: "Oort Cloud (inner)", km: 2.99e11 },
+  { name: "Proxima Centauri", km: 4.0175e13 }
 ];
 
-const LOG_MIN = Math.log10(3.844e5);
-const LOG_MAX = Math.log10(4.014e13);
+const logMin = Math.log10(MIN_KM);
+const logMax = Math.log10(MAX_KM);
+
+function kmToT(km) {
+  return (Math.log10(km) - logMin) / (logMax - logMin);
+}
+function tToKm(t) {
+  return Math.pow(10, logMin + t * (logMax - logMin));
+}
 
 function fmtKm(km) {
   if (km >= 1e12) return (km / 1e12).toFixed(2) + " trillion km";
   if (km >= 1e9) return (km / 1e9).toFixed(2) + " billion km";
-  if (km >= 1e6) return (km / 1e6).toFixed(1) + " million km";
-  return Math.round(km).toLocaleString() + " km";
+  if (km >= 1e6) return (km / 1e6).toFixed(2) + " million km";
+  return Math.round(km).toLocaleString("en-US") + " km";
 }
 
 function fmtLight(km) {
-  const s = km / LIGHT_KM_S;
-  if (s < 60) return s.toFixed(1) + " seconds";
-  if (s < 3600) return (s / 60).toFixed(1) + " minutes";
-  if (s < 86400) return (s / 3600).toFixed(1) + " hours";
-  if (s < 31557600) return (s / 86400).toFixed(1) + " days";
-  return (s / 31557600).toFixed(2) + " years";
+  const s = km / 299792.458;
+  if (s < 60) return s.toFixed(1) + " light-seconds";
+  if (s < 3600) return (s / 60).toFixed(1) + " light-minutes";
+  if (s < 86400) return (s / 3600).toFixed(1) + " light-hours";
+  if (s < 31557600) return (s / 86400).toFixed(1) + " light-days";
+  return (s / 31557600).toFixed(2) + " light-years";
 }
 
 export default function ScaleSlider() {
-  const [t, setT] = useState(0.62); // start out past Neptune
+  const [t, setT] = useState(kmToT(4.5e9));
+  const [v1Km, setV1Km] = useState(null);
 
-  const km = useMemo(() => Math.pow(10, LOG_MIN + t * (LOG_MAX - LOG_MIN)), [t]);
+  useEffect(() => {
+    const tick = () => setV1Km(distanceKm(PROBES.voyager1));
+    tick();
+    const id = setInterval(tick, 5000);
+    return () => clearInterval(id);
+  }, []);
 
-  const stops = useMemo(
-    () =>
-      STOPS.map((s) => {
-        const skm = s.live ? distanceKm(PROBES.voyager1) : s.km;
-        return { ...s, km: skm, pos: (Math.log10(skm) - LOG_MIN) / (LOG_MAX - LOG_MIN) };
-      }),
-    []
-  );
-
-  // nearest landmark to the cursor for context
-  const nearest = useMemo(
-    () => stops.reduce((a, b) => (Math.abs(b.pos - t) < Math.abs(a.pos - t) ? b : a)),
-    [stops, t]
-  );
+  const km = useMemo(() => tToKm(t), [t]);
 
   return (
-    <div className="rounded-lg border border-hairline bg-panel/80 p-6 backdrop-blur sm:p-8">
-      {/* readout */}
-      <div className="grid gap-4 sm:grid-cols-3">
+    <div className="rounded-lg border border-hairline bg-panel p-5 sm:p-6">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 className="font-display text-lg text-starlight">Scale of the void</h3>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-dim">
+          logarithmic rail · Moon → Proxima Centauri
+        </span>
+      </div>
+
+      <input
+        type="range"
+        min={0}
+        max={1000}
+        value={Math.round(t * 1000)}
+        onChange={(e) => setT(Number(e.target.value) / 1000)}
+        className="scale-rail mt-6 w-full"
+        aria-label="Distance from Earth"
+      />
+
+      <div className="mt-4 grid gap-3 font-mono text-sm sm:grid-cols-3">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-dim">Distance from Earth</p>
-          <p className="mt-1 font-mono text-xl text-telemetry sm:text-2xl">{fmtKm(km)}</p>
+          <p className="text-[10px] uppercase tracking-widest text-dim">Distance</p>
+          <p className="mt-1 text-telemetry">{fmtKm(km)}</p>
         </div>
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-dim">In AU</p>
-          <p className="mt-1 font-mono text-xl text-starlight sm:text-2xl">{(km / KM_AU).toFixed(2)}</p>
+          <p className="text-[10px] uppercase tracking-widest text-dim">In AU</p>
+          <p className="mt-1 text-starlight">{(km / KM_PER_AU).toFixed(3)} AU</p>
         </div>
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-dim">Light travel time</p>
-          <p className="mt-1 font-mono text-xl text-signal sm:text-2xl">{fmtLight(km)}</p>
+          <p className="text-[10px] uppercase tracking-widest text-dim">Light travel</p>
+          <p className="mt-1 text-signal">{fmtLight(km)}</p>
         </div>
       </div>
 
-      {/* the rail */}
-      <div className="relative mt-10 pb-16">
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.001"
-          value={t}
-          onChange={(e) => setT(Number(e.target.value))}
-          aria-label="Distance from Earth, logarithmic scale from the Moon to Proxima Centauri"
-          className="scale-rail w-full"
-        />
-        {/* landmark ticks */}
-        {stops.map((s) => (
-          <button
-            key={s.name}
-            onClick={() => setT(s.pos)}
-            style={{ left: `${s.pos * 100}%` }}
-            className={`group absolute top-7 -translate-x-1/2 ${s.live ? "text-telemetry" : "text-dim"}`}
-          >
-            <span className={`mx-auto block h-2 w-px ${s.live ? "bg-telemetry" : "bg-hairline"}`} />
-            <span
-              className={`mt-1 hidden whitespace-nowrap font-mono text-[9px] uppercase tracking-wider transition group-hover:text-starlight sm:block ${
-                Math.abs(s.pos - t) < 0.04 ? "text-starlight" : ""
-              } ${s.live ? "voyager-pulse" : ""}`}
-              style={{ writingMode: "vertical-rl" }}
+      <div className="mt-5 flex flex-wrap gap-2">
+        {LANDMARKS.map((l) => {
+          const target = l.km ?? v1Km;
+          if (!target) return null;
+          const isV1 = l.km === null;
+          return (
+            <button
+              key={l.name}
+              onClick={() => setT(kmToT(target))}
+              className={`rounded border px-2.5 py-1 font-mono text-[11px] transition ${
+                isV1
+                  ? "voyager-pulse border-telemetry/50 text-telemetry hover:bg-telemetry hover:text-void"
+                  : "border-hairline text-dim hover:border-signal/50 hover:text-starlight"
+              }`}
             >
-              {s.name}
-            </span>
-          </button>
-        ))}
+              {l.name}
+              {isV1 && " (live)"}
+            </button>
+          );
+        })}
       </div>
-
-      <p className="mt-2 min-h-10 text-sm text-dim">
-        <span className="font-mono text-xs uppercase tracking-widest text-starlight">{nearest.name} · </span>
-        {nearest.note}
-      </p>
-      <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-dim/60">
-        Logarithmic scale — every step rightward multiplies the distance
-      </p>
     </div>
   );
 }

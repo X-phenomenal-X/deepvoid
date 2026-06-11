@@ -1,33 +1,28 @@
-import { getAPOD } from "@/lib/nasa";
+import { getApod } from "@/lib/nasa";
 
 export default async function ApodCard() {
-  const apod = await getAPOD();
+  const apod = await getApod();
   if (!apod) {
     return (
-      <div className="rounded-lg border border-hairline bg-panel p-6 text-sm text-dim">
-        NASA&apos;s picture of the day is unavailable right now. It refreshes
-        automatically — check back shortly.
+      <div className="rounded-lg border border-hairline bg-panel p-5 text-sm text-dim">
+        NASA image feed is rate-limited right now — add a free NASA_API_KEY to fix this permanently.
       </div>
     );
   }
-
   const img = apod.media_type === "video" ? apod.thumbnail_url : apod.url;
-
   return (
-    <article className="overflow-hidden rounded-lg border border-hairline bg-panel">
+    <div className="card-glow overflow-hidden rounded-lg border border-hairline bg-panel">
       {img && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={img} alt={apod.title} className="aspect-video w-full object-cover" />
+        <img src={img} alt={apod.title} className="aspect-video w-full object-cover" loading="lazy" />
       )}
-      <div className="p-6">
+      <div className="p-5">
         <p className="font-mono text-[10px] uppercase tracking-widest text-signal">
-          NASA astronomy picture of the day · {apod.date}
+          NASA · Astronomy Picture of the Day
         </p>
-        <h3 className="mt-2 font-display text-xl text-starlight">{apod.title}</h3>
-        <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-dim">
-          {apod.explanation}
-        </p>
+        <h3 className="mt-2 font-display text-base text-starlight">{apod.title}</h3>
+        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-dim">{apod.explanation}</p>
       </div>
-    </article>
+    </div>
   );
 }
